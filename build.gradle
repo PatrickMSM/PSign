@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+application {
+    mainClass = 'tk.patsite.PSign.PSign'
+}
+
+jar {
+    manifest {
+        attributes('Main-Class': 'tk.patsite.PSign.PSign')
+    }
+}
+
+targetCompatibility = '1.17'
+sourceCompatibility = '1.17'
+
+group 'tk.patsite'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
