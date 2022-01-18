@@ -11,9 +11,9 @@ import java.util.Map;
 
 public final class CommandParser {
     private final Map<String, Command> commandMap = Map.of(
-            "--genkey", new GenkeyCommand(),
-            "--sign", new SignCommand(),
-            "--verify", new VerifyCommand()
+            "genkey", new GenkeyCommand(),
+            "sign", new SignCommand(),
+            "verify", new VerifyCommand()
     );
 
     public CommandParser(List<String> args) {
@@ -29,7 +29,7 @@ public final class CommandParser {
         if (commandMap.containsKey(command)) {
             commandMap.get(command).invoke(args);
         } else {
-            System.out.println("Invalid command " + command + "!");
+            System.out.println("Invalid command \"" + command + "\"!");
         }
     }
 }

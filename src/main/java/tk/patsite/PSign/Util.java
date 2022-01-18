@@ -29,7 +29,7 @@ public final class Util {
         writeBytesToFile(encodedKeySpec.getEncoded(), file);
     }
 
-    private static void writeBytesToFile(byte[] bytes, File file) throws IOException {
+    public static void writeBytesToFile(byte[] bytes, File file) throws IOException {
         if(!file.exists()) file.createNewFile();
         try(FileOutputStream outputStream = new FileOutputStream(file)) {
             outputStream.write(bytes);
@@ -38,69 +38,26 @@ public final class Util {
 
     // LOAD
 
-public static Key loadKey(String path, String type) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-    KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-    byte[] bytes = readBytesFromFile(new File(keyFile.formatted(path, type)));
-    if(type.equals("public")) {
-        X509EncodedKeySpec encodedKeySpec = new X509EncodedKeySpec(bytes);
-        return keyFactory.generatePublic(encodedKeySpec);
-    } else if(type.equals("private")) {
-        PKCS8EncodedKeySpec encodedKeySpec = new PKCS8EncodedKeySpec(bytes);
-        return keyFactory.generatePrivate(encodedKeySpec);
+    public static Key loadKey(String path, String type) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        byte[] bytes = readBytesFromFile(new File(keyFile.formatted(path, type)));
+        if(type.equals("public")) {
+            X509EncodedKeySpec encodedKeySpec = new X509EncodedKeySpec(bytes);
+            return keyFactory.generatePublic(encodedKeySpec);
+        } else if(type.equals("private")) {
+            PKCS8EncodedKeySpec encodedKeySpec = new PKCS8EncodedKeySpec(bytes);
+            return keyFactory.generatePrivate(encodedKeySpec);
+        }
+        // impossible to get here
+        // unless i made a typo somewhere test
+        return null;
     }
-    // impossible to get here
-    // unless i made a typo somewhere
-    return null;
-}
 
-    private static byte[] readBytesFromFile(File file) throws IOException {
+    public static byte[] readBytesFromFile(File file) throws IOException {
         return Files.readAllBytes(file.toPath());
     }
 
-
-
-
-
-    /*
-
-    public static PublicKey LoadPublicKey(String path, KeyPair pair) {
-        try {
-            File publicKeyFile = new File(path + ".public.key");
-            FileInputStream publicKeyFileInputStream = new FileInputStream(publicKeyFile);
-            byte[] encodedPublicKey = new byte[(int) publicKeyFile.length()];
-            publicKeyFileInputStream.read(encodedPublicKey);
-            publicKeyFileInputStream.close();
-
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(encodedPublicKey);
-
-            return keyFactory.generatePublic(publicKeySpec);
-
-        } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace();
-            return null;
-
-        }
+    public static boolean doesFileExist(String file) {
+        return new File(file).exists();
     }
-
-    public static PrivateKey LoadPrivateKey(String path, KeyPair pair) {
-        try {
-            File privateKeyFile = new File(path + ".private.key");
-            FileInputStream privateKeyFileInputStream = new FileInputStream(privateKeyFile);
-            byte[] encodedPrivateKey = new byte[(int) privateKeyFile.length()];
-            privateKeyFileInputStream.read(encodedPrivateKey);
-            privateKeyFileInputStream.close();
-
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-
-            PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(encodedPrivateKey);
-            return keyFactory.generatePrivate(privateKeySpec);
-
-        } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-        */
-
 }
