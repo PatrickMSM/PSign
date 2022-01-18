@@ -17,7 +17,7 @@ targetCompatibility = '1.17'
 sourceCompatibility = '1.17'
 
 group 'tk.patsite'
-version '1.0'
+version '1.0-alpha.1'
 
 repositories {
     mavenCentral()
